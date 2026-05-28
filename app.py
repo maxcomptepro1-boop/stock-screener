@@ -297,6 +297,7 @@ div[data-testid="stButton"] > button:hover {
     box-shadow: 0 8px 30px rgba(49,130,206,0.5) !important;
 }
 
+div[data-testid="stExpander"] summary { padding-left: 16px !important; }
 div[data-testid="stExpander"] {
     background: #070d1a !important;
     border: 1px solid #111d30 !important;
