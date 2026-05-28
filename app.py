@@ -335,7 +335,7 @@ st.markdown("""
 st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 col_l, col_m, col_r = st.columns([1,2,1])
 with col_m:
-    st.markdown("### 🔐 Accès Premium")
+    st.markdown("### Accès Premium")
     code = st.text_input("", placeholder="••••••••••••  Entrez votre code d'accès", type="password", label_visibility="collapsed")
     if code != "MONCODE123":
         if code: st.error("❌ Code incorrect.")
@@ -346,7 +346,7 @@ with col_m:
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ── GUIDE ─────────────────────────────────────────────────────────────────
-with st.expander("📚 Guide d'utilisation & Méthodologie"):
+with st.expander("Guide d'utilisation & Méthodologie"):
     c1, c2, c3 = st.columns(3)
     with c1:
         st.markdown("""**🎯 Les 10 critères analysés**
@@ -387,7 +387,7 @@ with st.expander("📚 Guide d'utilisation & Méthodologie"):
 st.divider()
 
 # ── PARAMÈTRES ────────────────────────────────────────────────────────────
-st.markdown("### ⚙️ Paramètres de l'analyse")
+st.markdown("### Paramètres de l'analyse")
 col1, col2, col3, col4 = st.columns(4)
 with col1:
     market_choice = st.selectbox("🌍 Marché", ["🌐 Tous", "🇺🇸 S&P500", "💻 NASDAQ", "🇪🇺 Europe", "🌏 Asie", "📈 Small Caps"])
@@ -598,7 +598,7 @@ if st.button("🚀 Lancer l'analyse IA", use_container_width=True):
     elif sort_by == "Capitalisation (↓)": qualified.sort(key=lambda x: x.get("market_cap") or 0, reverse=True)
 
     st.divider()
-    st.markdown(f"## 📊 Résultats · {datetime.now().strftime('%d/%m/%Y %H:%M')}")
+    st.markdown(f"## Résultats · {datetime.now().strftime('%d/%m/%Y %H:%M')}")
 
     st.markdown(f"""
     <div class="metric-grid">
@@ -685,41 +685,54 @@ if st.button("🚀 Lancer l'analyse IA", use_container_width=True):
     # RÉSULTATS
     if qualified:
         st.divider()
-        st.markdown(f"## 🏆 {len(qualified)} Actions qualifiées")
+        st.markdown(f"## {len(qualified)} Actions qualifiées")
 
         for i, r in enumerate(qualified):
             score_pct = r["score"] * 10
-            vc = "v-green" if r["score"]>=8 else "v-yellow" if r["score"]>=6 else "v-orange"
+            color = "#68d391" if r["score"]>=8 else "#f6ad55" if r["score"]>=6 else "#fc8181"
+            border = "#1a4a2a" if r["score"]>=8 else "#4a3a0a" if r["score"]>=6 else "#4a1a1a"
+            insight = ("🔥 Action exceptionnelle — À analyser en priorité avant tout investissement." if r["score"]>=8 else
+                       "💡 Bonnes fondamentales — Surveille le prix d'entrée." if r["score"]>=6 else
+                       "⚠️ Des qualités mais des faiblesses — À suivre avec prudence.")
 
-            with st.expander(f"{r['verdict']}  ·  {r['ticker']}  ·  {r['name']}  ·  {r['score']}/10"):
-                c1, c2, c3, c4 = st.columns(4)
-                c1.metric("Prix", f"${r['price']:.2f}")
-                c2.metric("Capitalisation", fmt_cap(r.get("market_cap")))
-                c3.metric("Secteur", r.get("sector","N/A")[:20])
-                c4.metric("Score", f"{r['score']}/10 ⭐")
+            crit_html = ""
+            for crit in r["criteria"].values():
+                icon = "✅" if crit["passed"] else "❌"
+                crit_html += f'<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #0d1a2e"><span style="color:#3a5a7a;font-size:12px">{icon} {crit["label"]}</span><span style="color:#63b3ed;font-size:12px;font-weight:600">{crit["value"]}</span></div>'
 
-                st.markdown(f"""
-                <div style="margin: 12px 0 4px 0; color: #2d4a6a; font-size:12px; font-weight:600">SCORE GLOBAL</div>
-                <div class="score-bar-bg">
-                    <div class="score-bar-fill" style="width:{score_pct}%"></div>
+            st.markdown(f"""
+            <div style="background:#070d1a;border:1px solid {border};border-left:3px solid {color};border-radius:14px;padding:24px 28px;margin-bottom:14px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:16px">
+                    <div>
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+                            <span style="font-size:22px;font-weight:800;color:#fff">{r["ticker"]}</span>
+                            <span style="background:rgba(99,179,237,0.1);color:#63b3ed;border:1px solid rgba(99,179,237,0.2);padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600">{r["market"]}</span>
+                        </div>
+                        <div style="color:#4a6a8a;font-size:13px">{r["name"]}</div>
+                        <div style="color:#2d4a6a;font-size:11px;margin-top:4px">{r.get("sector","N/A")} · {r.get("industry","N/A")[:40]}</div>
+                    </div>
+                    <div style="text-align:right">
+                        <div style="font-size:32px;font-weight:900;color:{color}">{r["score"]}<span style="font-size:16px;color:#2d4a6a">/10</span></div>
+                        <div style="color:#2d4a6a;font-size:11px">{r["verdict"]}</div>
+                    </div>
                 </div>
-                <div style="color:#2d4a6a;font-size:11px;margin-top:6px">{r['score']}/10 critères validés · {score_pct}% de conformité</div>
-                """, unsafe_allow_html=True)
-
-                st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-
-                crit_data = []
-                for crit in r["criteria"].values():
-                    crit_data.append({"": "✅" if crit["passed"] else "❌",
-                                      "Critère": crit["label"],
-                                      "Valeur": crit["value"],
-                                      "Seuil requis": crit["threshold"]})
-                st.dataframe(pd.DataFrame(crit_data), use_container_width=True, hide_index=True)
-
-                insight = ("🔥 Action exceptionnelle selon nos 10 critères institutionnels. À analyser en priorité avec une étude fondamentale approfondie avant tout investissement." if r['score']>=8 else
-                           "💡 Bonnes fondamentales. Surveille cette action et attends un point d'entrée optimal (pullback ou consolidation)." if r['score']>=6 else
-                           "⚠️ Qualités intéressantes mais quelques faiblesses. À surveiller sur le long terme.")
-                st.markdown(f"""<div class="insight-box"><div class="insight-title">💡 Analyse IA</div><div class="insight-text">{insight}</div></div>""", unsafe_allow_html=True)
+                <div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:16px">
+                    <div><div style="color:#2d4a6a;font-size:10px;text-transform:uppercase;letter-spacing:1px">PRIX</div><div style="color:#fff;font-size:16px;font-weight:700">${r["price"]:.2f}</div></div>
+                    <div><div style="color:#2d4a6a;font-size:10px;text-transform:uppercase;letter-spacing:1px">CAP. BOURSIÈRE</div><div style="color:#fff;font-size:16px;font-weight:700">{fmt_cap(r.get("market_cap"))}</div></div>
+                    <div><div style="color:#2d4a6a;font-size:10px;text-transform:uppercase;letter-spacing:1px">SECTEUR</div><div style="color:#fff;font-size:16px;font-weight:700">{r.get("sector","N/A")[:18]}</div></div>
+                </div>
+                <div style="margin-bottom:4px;color:#1a3050;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px">SCORE · {r["score"]}/10 CRITÈRES VALIDÉS</div>
+                <div style="background:#0a1525;border-radius:6px;height:8px;margin-bottom:16px;overflow:hidden">
+                    <div style="width:{score_pct}%;height:8px;background:linear-gradient(90deg,#2b6cb0,{color});border-radius:6px;box-shadow:0 0 8px rgba(99,179,237,0.4)"></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 24px">
+                    {crit_html}
+                </div>
+                <div style="margin-top:14px;background:rgba(43,108,176,0.06);border:1px solid rgba(43,108,176,0.15);border-left:3px solid #3182ce;border-radius:0 8px 8px 0;padding:10px 14px;color:#4a6a8a;font-size:12px">
+                    {insight}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
 
         st.divider()
         rows = [{"Verdict":r["verdict"],"Ticker":r["ticker"],"Nom":r["name"],"Marché":r["market"],
