@@ -346,43 +346,50 @@ with col_m:
 st.markdown('</div>', unsafe_allow_html=True)
 
 # ── GUIDE ─────────────────────────────────────────────────────────────────
-with st.expander("Guide d'utilisation & Méthodologie"):
-    c1, c2, c3 = st.columns(3)
-    with c1:
-        st.markdown("""**🎯 Les 10 critères analysés**
-1. 📈 Croissance CA >15%/an
-2. 💰 Marge Nette >15%
-3. 📊 PEG Ratio <2.0 (Lynch)
-4. 🛡️ Marge Brute >40%
-5. 🏦 Dette/Capitaux <1.0
-6. ⭐ ROE >15% (Buffet)
-7. 🔮 ROIC >15% (Munger)
-8. 💵 FCF Yield >5%
-9. ✨ Magic Formula (Greenblatt)
-10. 📉 Short Interest <10%""")
-    with c2:
-        st.markdown("""**📊 Légende des verdicts**
-
-🟢 **FORT POTENTIEL** (8-10/10)
-→ Action exceptionnelle à étudier
-
-🟡 **À SURVEILLER** (6-7/10)
-→ Bonnes bases, surveiller le prix
-
-🟠 **INTÉRESSANT** (4-5/10)
-→ Qualités mais faiblesses notables
-
-🔴 **ÉVITER** (0-3/10)
-→ Ne passe pas les filtres""")
-    with c3:
-        st.markdown("""**⚡ Conseils d'utilisation**
-
-• Lance un scan par marché pour plus de précision
-• Score ≥ 7 = action à analyser sérieusement
-• Exporte le CSV et croise avec d'autres sources
-• Relance chaque semaine pour voir les nouveaux signaux
-• ⚠️ Toujours faire ses propres recherches
-• Ce n'est pas un conseil financier""")
+st.markdown('''
+<div style="background:#070d1a;border:1px solid #1a2f50;border-radius:16px;padding:28px 32px;margin-bottom:24px">
+<div style="color:#63b3ed;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:20px">MÉTHODOLOGIE & GUIDE</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+<div>
+<div style="color:#fff;font-size:13px;font-weight:700;margin-bottom:12px">Les 10 critères analysés</div>
+<div style="color:#3a5a7a;font-size:12px;line-height:2">
+1. Croissance CA &gt;15%/an<br>
+2. Marge Nette &gt;15%<br>
+3. PEG Ratio &lt;2.0 (Lynch)<br>
+4. Marge Brute &gt;40%<br>
+5. Dette/Capitaux &lt;1.0<br>
+6. ROE &gt;15% (Buffet)<br>
+7. ROIC &gt;15% (Munger)<br>
+8. FCF Yield &gt;5%<br>
+9. Magic Formula (Greenblatt)<br>
+10. Short Interest &lt;10%
+</div>
+</div>
+<div>
+<div style="color:#fff;font-size:13px;font-weight:700;margin-bottom:12px">Légende des verdicts</div>
+<div style="font-size:12px;line-height:2.2">
+<span style="color:#68d391">● FORT POTENTIEL</span> <span style="color:#2d4a6a">(8-10/10)</span><br>
+<span style="color:#3a5a7a;font-size:11px">Action exceptionnelle à étudier</span><br>
+<span style="color:#f6ad55">● À SURVEILLER</span> <span style="color:#2d4a6a">(6-7/10)</span><br>
+<span style="color:#3a5a7a;font-size:11px">Bonnes bases, surveiller le prix</span><br>
+<span style="color:#fc8181">● ÉVITER</span> <span style="color:#2d4a6a">(0-5/10)</span><br>
+<span style="color:#3a5a7a;font-size:11px">Ne passe pas les filtres</span>
+</div>
+</div>
+<div>
+<div style="color:#fff;font-size:13px;font-weight:700;margin-bottom:12px">Conseils d'utilisation</div>
+<div style="color:#3a5a7a;font-size:12px;line-height:2">
+· Score ≥ 7 = analyser sérieusement<br>
+· Exporte le CSV pour archiver<br>
+· Relance chaque semaine<br>
+· Lance par marché pour plus de précision<br>
+· Toujours faire ses propres recherches<br>
+· Pas un conseil financier
+</div>
+</div>
+</div>
+</div>
+''', unsafe_allow_html=True)
 
 st.divider()
 
