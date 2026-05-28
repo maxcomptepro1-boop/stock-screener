@@ -297,7 +297,6 @@ div[data-testid="stButton"] > button:hover {
     box-shadow: 0 8px 30px rgba(49,130,206,0.5) !important;
 }
 
-div[data-testid="stExpander"] summary { padding-left: 16px !important; }
 div[data-testid="stExpander"] {
     background: #070d1a !important;
     border: 1px solid #111d30 !important;
@@ -305,6 +304,10 @@ div[data-testid="stExpander"] {
     margin-bottom: 8px !important;
 }
 div[data-testid="stExpander"]:hover { border-color: #2563a8 !important; }
+div[data-testid="stExpander"] summary { padding: 12px 16px !important; }
+div[data-testid="stExpander"] summary span { display: none !important; }
+div[data-testid="stExpander"] details summary::marker { display: none !important; }
+[data-testid="stExpander"] > details > summary > span:first-child { display: none !important; }
 
 .stProgress > div > div > div { background: linear-gradient(90deg, #1a4080, #3182ce, #63b3ed) !important; }
 .stProgress > div > div { background: #0a1525 !important; }
